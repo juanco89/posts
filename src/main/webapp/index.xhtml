@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" 
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Formulario ingreso</title>
+    </h:head>
+    <h:body>
+    <p:panel header="Autenticación" style="margin:auto">
+        <h:form id="login-form">
+            <h:panelGrid columns="2" cellpadding="5">
+		<h:outputLabel for="txUsuario" value="* Usuario:"/>
+                <p:inputText id="txUsuario" value="" required="true"/>
+		
+                <h:outputLabel for="txSecret" value="* Contraseña:"/>
+                <p:password id="txSecret" value="" feedback="true" required="true"/> 
+            </h:panelGrid>
+            <p:commandButton value="Enviar"/>
+        </h:form>
+    </p:panel>
+    </h:body>
+</html>

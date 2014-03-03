@@ -16,7 +16,7 @@
                 <h:outputLabel for="txSecret" value="* Contraseña:"/>
                 <p:password id="txSecret" value="" feedback="true" required="true"/> 
             </h:panelGrid>
-            <p:commandButton value="Enviar"/>
+            <p:commandButton value="Enviar" action="#{loginBean.doLogin}"/>
         </h:form>
     </p:panel>
     </h:body>

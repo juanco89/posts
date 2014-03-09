@@ -27,7 +27,7 @@ public class DaoUsuarios {
      */
     public Usuario buscar(String user) {
         Connection conex = Conexion.getConnection();
-        String sql = "select * from user where nombre = ?";
+        String sql = "select * from usuarios where nombre = ?";
         Usuario dto = null;
         try (PreparedStatement pStat = conex.prepareStatement(sql)) {
             pStat.setString(1, user);
@@ -37,7 +37,8 @@ public class DaoUsuarios {
                 dto.setNombre(rs.getString("nombre"));
                 dto.setSecret(rs.getString("password"));
             }
-        } catch (SQLException ex) { }
+        } catch (SQLException ex) { 
+        }
         return dto;
     }
 }

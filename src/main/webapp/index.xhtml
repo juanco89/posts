@@ -11,12 +11,12 @@
         <h:form id="login-form">
             <h:panelGrid columns="2" cellpadding="5">
 		<h:outputLabel for="txUsuario" value="* Usuario:"/>
-                <p:inputText id="txUsuario" value="" required="true"/>
+                <p:inputText id="txUsuario" value="#{loginController.usuario}" required="true"/>
 		
                 <h:outputLabel for="txSecret" value="* Contraseña:"/>
-                <p:password id="txSecret" value="" feedback="true" required="true"/> 
+                <p:password id="txSecret" value="#{loginController.password}" feedback="true" required="true"/> 
             </h:panelGrid>
-            <p:commandButton value="Enviar" action="#{loginBean.doLogin}"/>
+            <p:commandButton value="Enviar" action="#{loginController.doLogin}"/>
         </h:form>
     </p:panel>
     </h:body>

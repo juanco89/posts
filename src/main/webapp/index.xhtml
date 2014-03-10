@@ -14,7 +14,7 @@
                 <p:inputText id="txUsuario" value="#{loginController.usuario}" required="true"/>
 		
                 <h:outputLabel for="txSecret" value="* Contraseña:"/>
-                <p:password id="txSecret" value="#{loginController.password}" feedback="true" required="true"/> 
+                <p:password id="txSecret" value="#{loginController.password}" feedback="false" required="true"/> 
             </h:panelGrid>
             <p:commandButton value="Enviar" action="#{loginController.doLogin}"/>
         </h:form>

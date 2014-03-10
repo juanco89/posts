@@ -4,12 +4,14 @@ package com.juanco.posts.controller;
 import com.juanco.posts.model.Usuario;
 import com.juanco.posts.model.dao.DaoUsuarios;
 import com.juanco.posts.util.MD5;
+import com.juanco.posts.util.Util;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 
 /**
  * Controlador para el manejo de session y autenticación.
@@ -22,11 +24,9 @@ import javax.inject.Named;
 public class LoginController implements Serializable {
     
     private final Usuario usuario;
-    private boolean isLogged;
 
     public LoginController() {
         usuario = new Usuario();
-        isLogged = false;
     }
 
     public String getUsuario() {
@@ -55,21 +55,23 @@ public class LoginController implements Serializable {
             Usuario storedUser = dao.buscar(usuario.getNombre());
             
             if(storedUser != null && storedUser.getSecret().equals(pass)) {
-                // TODO: Create session
-                isLogged = true;
+                HttpSession sesion = Util.getSession();
+                sesion.setAttribute("username", usuario.getNombre());
                 return "login-success";
             }
             
         }
         // TODO: Set failure messages
+        usuario.setSecret("");
         return "login-failed";
     }
     
     public void logout() {
-        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        ec.invalidateSession();
+        HttpSession sesion = Util.getSession();
+        sesion.invalidate();
         try {
             // return "/home.xhtml?faces-redirect=true";
+            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             ec.redirect(ec.getRequestContextPath() + "/home.xhtml");
         }catch(IOException e) { }
     }

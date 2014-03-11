@@ -1,0 +1,41 @@
+
+/*
+ * Hoja de estilo básico.
+ */
+root, html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    color: #666666;
+    font-size: 18px;
+}
+
+/* Componentes únicos de plantilla */
+
+#wraper {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+#header {
+    display: block;
+    min-height: 10%;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+#content {
+    display: block;
+    min-height: 70%;
+    width: 100%;
+}
+
+#footer {
+    display: block;
+    min-height: 20%;
+    width: 100%;
+    margin-top: 10px;
+    background-color: #dcdcdc;
+}

@@ -19,14 +19,16 @@ import javax.servlet.http.HttpSession;
  * @author Juan C. Orozco <juanco89@gmail.com>
  */
 // @ManagedBean
-@Named  // JEE7
+@Named // JEE7
 @SessionScoped
 public class LoginController implements Serializable {
     
     private final Usuario usuario;
+    private boolean logged;
 
     public LoginController() {
         usuario = new Usuario();
+        logged = false;
     }
 
     public String getUsuario() {
@@ -45,6 +47,10 @@ public class LoginController implements Serializable {
         this.usuario.setSecret(password);
     }
     
+    public boolean isLogged() {
+        return logged;
+    }
+
     public String doLogin() {
         
         if(!usuario.getNombre().isEmpty() && !usuario.getSecret().isEmpty()) {
@@ -57,6 +63,7 @@ public class LoginController implements Serializable {
             if(storedUser != null && storedUser.getSecret().equals(pass)) {
                 HttpSession sesion = Util.getSession();
                 sesion.setAttribute("username", usuario.getNombre());
+                logged = true;
                 return "login-success";
             }
             
@@ -69,6 +76,7 @@ public class LoginController implements Serializable {
     public void logout() {
         HttpSession sesion = Util.getSession();
         sesion.invalidate();
+        logged = false;
         try {
             // return "/home.xhtml?faces-redirect=true";
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();

@@ -12,18 +12,26 @@
  
 	    <div id="header">
 		  <!-- <ui:include src="" /> -->
-                  Encabezado
+                  Posts
 	    </div>
  
-	    <div id="content">
-	  	<ui:insert name="contenido" >
-	 	  Contenido
-	   	</ui:insert>
+	    <div id="central">
+                
+                <div id="menu-panel">
+                    <ui:include src="/common/menu.xhtml" />
+                </div>
+                <div id="content">
+                    <ui:insert name="contenido" >
+                        Contenido
+                    </ui:insert>
+                </div>
 	    </div>
- 
+            
 	    <div id="footer">
+                <hr />
 	    	  <!-- <ui:include src="" /> -->
-                  Pie de página
+                  Creado por: Juan C. Orozco <br />
+                  2014
     	    </div>
  
         </div>

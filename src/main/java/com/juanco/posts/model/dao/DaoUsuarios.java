@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dao para el acceso a los datos de la tabla Usuario.
@@ -41,4 +44,29 @@ public class DaoUsuarios {
         }
         return dto;
     }
+    
+    /**
+     * Busca todos los registros de usuarios encontrados en el data source.
+     * 
+     * @return List<Usuario> - Lista con todos los usuarios encontrados.
+     */
+    public List<Usuario> buscarTodo() {
+        Connection conex = Conexion.getConnection();
+        String sql = "select * from usuarios";
+        List<Usuario> usuarios = null;
+        try (Statement stat = conex.createStatement()) {
+            ResultSet rs = stat.executeQuery(sql);
+            usuarios = new ArrayList<>();
+            while(rs.next()) {
+                Usuario dto = new Usuario();
+                dto.setNombre(rs.getString("nombre"));
+                dto.setSecret(rs.getString("password"));
+
+                usuarios.add(dto);
+            }
+        } catch (SQLException ex) { 
+        }
+        return usuarios;
+    }
+    
 }

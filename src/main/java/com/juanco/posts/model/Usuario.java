@@ -1,12 +1,14 @@
 
 package com.juanco.posts.model;
 
+import java.io.Serializable;
+
 /**
  * Clase del modelo que representa aun usuario del sistema.
  * 
  * @author Juan C. Orozco <juanco89@gmail.com>
  */
-public class Usuario {
+public class Usuario implements Serializable {
    
     private String nombre;
     private String secret;

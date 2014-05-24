@@ -14,7 +14,7 @@
                 <p:menu rendered="#{loginController.logged}">
                     <p:submenu label="Administracion">
                         <p:menuitem value="Usuarios" outcome="go-users" />
-                        <p:menuitem value="Posts" url="#" />
+                        <p:menuitem value="Posts" outcome="go-posts" />
                     </p:submenu>
                     <p:submenu label="Mi cuenta">
                         <p:menuitem value="Salir" action="#{loginController.logout}"/>

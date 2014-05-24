@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Posts::Posts</title>
+    </h:head>
+    <h:body>
+        
+        <ui:composition template="/common/basic-template.xhtml">
+            <ui:define name="contenido" >
+                
+                <h:form>
+                    <p:dataTable id="tbposts" var="post" value="#{postsController.posts}" 
+                                 paginator="true" rows="10">
+                        
+                        <f:facet name="header">
+                            Publicaciones
+                        </f:facet>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Título" />
+                            </f:facet>
+                            <h:outputText value="#{post.titulo}" />
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Detalle" />
+                            </f:facet>
+                            <h:outputText value="#{post.detalle}" />
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Creación" />
+                            </f:facet>
+                            <h:outputText value="#{post.fecha}" >
+                                <f:convertDateTime pattern="dd-MM-yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        
+                    </p:dataTable>
+                    
+                </h:form>
+                
+            </ui:define>
+        </ui:composition>
+        
+    </h:body>
+</html>

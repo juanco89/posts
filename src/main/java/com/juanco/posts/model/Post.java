@@ -20,6 +20,12 @@ public class Post {
     /** Fecha de publicación. */
     private Date fecha;
     
+    /** Autor del post. */
+    private String autor;
+    
+    /** Género al que pertenece la publicación. */
+    private Categoria categoria;
+    
     public Post() { }
 
     public int getId() {
@@ -52,5 +58,21 @@ public class Post {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

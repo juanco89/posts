@@ -44,6 +44,20 @@
                             </h:outputText>
                         </p:column>
                         
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Categoría" />
+                            </f:facet>
+                            <h:outputText value="#{post.categoria.nombre}" />
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Autor" />
+                            </f:facet>
+                            <h:outputText value="#{post.autor}" />
+                        </p:column>
+                        
                     </p:dataTable>
                     
                 </h:form>

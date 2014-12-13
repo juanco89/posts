@@ -1,25 +1,25 @@
 
 package com.juanco.posts.model.dao;
 
-import com.juanco.posts.model.Usuario;
-import com.juanco.posts.model.db.Conexion;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import com.juanco.posts.model.entities.Usuario;
+import com.juanco.posts.util.Logg;
 import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * Dao para el acceso a los datos de la tabla Usuario.
  * 
  * @author Juan C. Orozco <juanco89@gmail.com>
  */
+@Stateless
 public class DaoUsuarios {
     
+    @PersistenceContext(unitName = "PostsDataSourceUP")
+    private EntityManager em;
+    
     public DaoUsuarios() {
-        
     }
     
     /**
@@ -29,20 +29,12 @@ public class DaoUsuarios {
      * @return Usuario - Instancia con el usuario encontrado.
      */
     public Usuario buscar(String user) {
-        Connection conex = Conexion.getConnection();
-        String sql = "select * from usuarios where nombre = ?";
-        Usuario dto = null;
-        try (PreparedStatement pStat = conex.prepareStatement(sql)) {
-            pStat.setString(1, user);
-            ResultSet rs = pStat.executeQuery();
-            if(rs.next()) {
-                dto = new Usuario();
-                dto.setNombre(rs.getString("nombre"));
-                dto.setSecret(rs.getString("password"));
-            }
-        } catch (SQLException ex) { 
+        try {
+            return em.find(Usuario.class, user);
+        }catch(Exception e){
+            new Logg().registrar(e.getLocalizedMessage());
         }
-        return dto;
+        return null;
     }
     
     /**
@@ -51,22 +43,13 @@ public class DaoUsuarios {
      * @return List<Usuario> - Lista con todos los usuarios encontrados.
      */
     public List<Usuario> buscarTodo() {
-        Connection conex = Conexion.getConnection();
-        String sql = "select * from usuarios";
-        List<Usuario> usuarios = null;
-        try (Statement stat = conex.createStatement()) {
-            ResultSet rs = stat.executeQuery(sql);
-            usuarios = new ArrayList<>();
-            while(rs.next()) {
-                Usuario dto = new Usuario();
-                dto.setNombre(rs.getString("nombre"));
-                dto.setSecret(rs.getString("password"));
-
-                usuarios.add(dto);
-            }
-        } catch (SQLException ex) { 
+        try {
+            List<Usuario> usuarios = (List<Usuario>) em.createQuery("SELECT u FROM Usuario u").getResultList();
+            return usuarios;
+        }catch(Exception e){
+            new Logg().registrar(e.getLocalizedMessage());
         }
-        return usuarios;
+        return null;
     }
     
 }

@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Posts::Posts</title>
+    </h:head>
+    <h:body>
+        
+        <ui:composition template="/common/basic-template.xhtml">
+            <ui:define name="contenido" >
+                
+                <p:panel header="Nueva publicación" style="margin:auto;width:40%">
+                    <h:form id="form-nueva-publicacion">
+                        <h:message showSummary="true" showDetail="true" id="errors1" for="selectCategoria" />
+                        
+                        <h:panelGrid columns="2" cellpadding="5">
+                            <h:outputLabel for="txTitulo" value="* Título:"/>
+                            <p:inputText id="txTitulo" value="#{postsController.post.titulo}" required="true"/>
+                            
+                            <h:outputLabel for="txDetalle" value="* Detalle:"/>
+                            <p:inputTextarea id="txDetalle" value="#{postsController.post.detalle}" required="true"/>
+                            
+                            <h:outputLabel for="selectCategoria" value="* Categoría:"/>
+                            <p:selectOneMenu id="selectCategoria" value="#{postsController.categoriaSeleccionada}" required="true">
+                                <f:selectItem itemLabel="Seleccione la categoría" itemValue="#{-1}" />
+                                <f:selectItems value="#{postsController.categorias}" />
+                            </p:selectOneMenu>
+                            
+                        </h:panelGrid>
+                        <p:commandButton value="Guardar" action="#{postsController.guardarPublicacion}"/>
+                    </h:form>
+                </p:panel>
+                
+            </ui:define>
+        </ui:composition>
+        
+    </h:body>
+</html>

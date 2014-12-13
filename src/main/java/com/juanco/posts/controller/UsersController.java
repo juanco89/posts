@@ -1,10 +1,12 @@
 
 package com.juanco.posts.controller;
 
-import com.juanco.posts.model.Usuario;
 import com.juanco.posts.model.dao.DaoUsuarios;
+import com.juanco.posts.model.entities.Usuario;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -15,14 +17,23 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class UsersController implements Serializable{
+public class UsersController implements Serializable {
 
-    private final List<Usuario> usuarios;
+    private List<Usuario> usuarios;
+    
+    @EJB( name = "DaoUsuarios" )
+    private DaoUsuarios dao;
     
     public UsersController() {
-        DaoUsuarios dao = new DaoUsuarios();
+    }
+    
+    @PostConstruct
+    public void buscarUsuarios() {
         usuarios = dao.buscarTodo();
     }
+    
+    
+    /*** Accesores ***/
     
     public List<Usuario> getUsuarios() {
         return usuarios;

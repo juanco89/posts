@@ -1,12 +1,13 @@
 
 package com.juanco.posts.controller;
 
-import com.juanco.posts.model.Usuario;
 import com.juanco.posts.model.dao.DaoUsuarios;
+import com.juanco.posts.model.entities.Usuario;
 import com.juanco.posts.util.MD5;
 import com.juanco.posts.util.Util;
 import java.io.IOException;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -25,51 +26,27 @@ public class LoginController implements Serializable {
     
     private final Usuario usuario;
     private boolean logged;
-
+    
+    @EJB( name = "DaoUsuarios" )
+    private DaoUsuarios dao;
+    
     public LoginController() {
         usuario = new Usuario();
         logged = false;
     }
-
-    public String getUsuario() {
-        return usuario.getNombre();
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario.setNombre(usuario);
-    }
-
-    public String getPassword() {
-        return usuario.getSecret();
-    }
-
-    public void setPassword(String password) {
-        this.usuario.setSecret(password);
-    }
     
-    public boolean isLogged() {
-        return logged;
-    }
-
+    
+    /*** operaciones de negocio ***/
+    
     public String doLogin() {
-        
-        if(!usuario.getNombre().isEmpty() && !usuario.getSecret().isEmpty()) {
-            
-            String pass = MD5.toHexString(usuario.getSecret());
-            
-            DaoUsuarios dao = new DaoUsuarios();
-            Usuario storedUser = dao.buscar(usuario.getNombre());
-            
-            if(storedUser != null && storedUser.getSecret().equals(pass)) {
-                HttpSession sesion = Util.getSession();
-                sesion.setAttribute("username", usuario.getNombre());
-                logged = true;
-                return "login-success";
-            }
-            
+        if(identificarUsuarioRegistrado(usuario)) {
+            HttpSession sesion = Util.getSession();
+            sesion.setAttribute("username", usuario.getNombre());
+            logged = true;
+            return "login-success";
         }
         // TODO: Set failure messages
-        usuario.setSecret("");
+        usuario.setPassword("");
         return "login-failed";
     }
     
@@ -82,5 +59,53 @@ public class LoginController implements Serializable {
             ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
             ec.redirect(ec.getRequestContextPath() + "/home.xhtml");
         }catch(IOException e) { }
+    }
+    
+    
+    /*** proceso ***/
+    
+    /**
+     * Verifica si un usuario dado se encuentra registrado en el sistema.
+     * 
+     * @param user - Usuario - Instancia de usuario a verificar.
+     * @return boolean - true si se encuentra en el sistema, false de lo contrario.
+     */
+    protected boolean identificarUsuarioRegistrado(Usuario user) {
+        if(user == null) return false;
+        
+        if(!user.getNombre().isEmpty() && !user.getPassword().isEmpty()) {
+            
+            String pass = MD5.toHexString(user.getPassword());
+            
+            Usuario storedUser = dao.buscar(user.getNombre());
+            
+            if(storedUser != null && storedUser.getPassword().equals(pass)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    /*** accesores ***/
+    
+    public String getUsuario() {
+        return usuario.getNombre();
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario.setNombre(usuario);
+    }
+
+    public String getPassword() {
+        return usuario.getPassword();
+    }
+
+    public void setPassword(String password) {
+        this.usuario.setPassword(password);
+    }
+    
+    public boolean isLogged() {
+        return logged;
     }
 }

@@ -7,6 +7,7 @@ import com.juanco.posts.model.entities.Post;
 import com.juanco.posts.model.entities.Usuario;
 import com.juanco.posts.util.Util;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -63,13 +64,14 @@ public class PostsController implements Serializable {
         
         post.setCategoria(new Categoria(categoriaSeleccionada));
         post.setAutor(new Usuario((String)Util.getSession().getAttribute("username")));
-        post.setFecha(new Date());
+        post.setFecha(new Date(System.currentTimeMillis()));
         
         boolean insertado = dao.insertar(post);
         
-        if(insertado)
+        if(insertado) {
+            posts.add(post);
             return "posts";
-        else
+        } else 
             return "nueva-publicacion";
     }
     

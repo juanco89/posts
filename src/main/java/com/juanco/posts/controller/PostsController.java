@@ -1,13 +1,13 @@
 
 package com.juanco.posts.controller;
 
+import com.juanco.posts.model.dao.DaoCategorias;
 import com.juanco.posts.model.dao.DaoPosts;
 import com.juanco.posts.model.entities.Categoria;
 import com.juanco.posts.model.entities.Post;
 import com.juanco.posts.model.entities.Usuario;
 import com.juanco.posts.util.Util;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,13 +25,16 @@ import javax.inject.Named;
 public class PostsController implements Serializable {
 
     private List<Post> posts;
-    private List<SelectItem> categorias;
+    private List<SelectItem> itemsCategorias;
     
     private Post post;
     private int categoriaSeleccionada;
     
     @EJB( name = "DaoPosts" )
     private DaoPosts dao;
+    
+    @EJB( name = "DaoCategorias" )
+    private DaoCategorias daoCateg;
     
     public PostsController() {
         categoriaSeleccionada = -1;
@@ -41,11 +44,12 @@ public class PostsController implements Serializable {
     public void buscarListaDatos() {
         posts = dao.buscarTodos();
         
-        categorias = new ArrayList<>();
+        List<Categoria> categorias = daoCateg.buscarTodos();
         
-        categorias.add(new SelectItem(1, "Novato"));
-        categorias.add(new SelectItem(2, "Especializado"));
-        categorias.add(new SelectItem(3, "Investigación"));
+        itemsCategorias = new ArrayList<>();
+        for(Categoria c : categorias) {
+            itemsCategorias.add(new SelectItem(c.getId(), c.getDescripcion()));
+        }
     }
     
     
@@ -70,6 +74,7 @@ public class PostsController implements Serializable {
         
         if(insertado) {
             posts.add(post);
+            categoriaSeleccionada = -1;
             return "posts";
         } else 
             return "nueva-publicacion";
@@ -82,7 +87,7 @@ public class PostsController implements Serializable {
     }
     
     public List<SelectItem> getCategorias() {
-        return categorias;
+        return itemsCategorias;
     }
     
     public Post getPost() {

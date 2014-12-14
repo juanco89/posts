@@ -16,7 +16,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -56,7 +55,8 @@ public class Post implements Serializable {
     @ManyToOne(optional = false)
     private Categoria categoria;
     
-    @Transient
+    @JoinColumn(name = "autor", referencedColumnName = "nombre")
+    @ManyToOne(optional = false)
     private Usuario autor;
 
     public Post() {

@@ -19,19 +19,19 @@
                         
                         <h:panelGrid columns="2" cellpadding="5">
                             <h:outputLabel for="txTitulo" value="* Título:"/>
-                            <p:inputText id="txTitulo" value="#{postsController.post.titulo}" required="true"/>
+                            <p:inputText id="txTitulo" value="#{nuevaPublicacionController.post.titulo}" required="true"/>
                             
                             <h:outputLabel for="txDetalle" value="* Detalle:"/>
-                            <p:inputTextarea id="txDetalle" value="#{postsController.post.detalle}" required="true"/>
+                            <p:inputTextarea id="txDetalle" value="#{nuevaPublicacionController.post.detalle}" required="true"/>
                             
                             <h:outputLabel for="selectCategoria" value="* Categoría:"/>
-                            <p:selectOneMenu id="selectCategoria" value="#{postsController.categoriaSeleccionada}" required="true">
+                            <p:selectOneMenu id="selectCategoria" value="#{nuevaPublicacionController.categoriaSeleccionada}" required="true">
                                 <f:selectItem itemLabel="Seleccione la categoría" itemValue="#{-1}" />
-                                <f:selectItems value="#{postsController.categorias}" />
+                                <f:selectItems value="#{nuevaPublicacionController.itemsCategorias}" />
                             </p:selectOneMenu>
                             
                         </h:panelGrid>
-                        <p:commandButton value="Guardar" action="#{postsController.guardarPublicacion}"/>
+                        <p:commandButton value="Guardar" action="#{nuevaPublicacionController.guardarPublicacion}"/>
                     </h:form>
                 </p:panel>
                 
